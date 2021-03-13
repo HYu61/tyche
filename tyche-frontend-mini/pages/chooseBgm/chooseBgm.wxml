@@ -1,0 +1,35 @@
+<view>
+    <form bindsubmit='upload'>
+
+         <radio-group name="bgmId">
+
+
+          <block wx:for="{{bgmList}}">
+            <view class='container'>
+          <iaudio songName="{{item.name}}" singer="{{item.author}}" src="{{serverUrl}}{{item.path}}" style='width:300px' id="myAudio"></iaudio>
+          <radio style='margin-top:20px;' value='{{item.id}}'></radio>
+
+        </view>
+
+          </block>
+        </radio-group> 
+        <view class="inputView">
+          <view>
+            <label class="loginLabel">Description:</label>
+            <input name="desc" class="inputText" placeholder="说点什么吧" />
+          </view>
+            <block wx:if="{{isVip}}">
+              <label class="loginLabel">Set as vip-video:</label>
+            <switch name="vipVideo" class="inputSwitch" bindchange="switchChange" checked="{{vipVideoChecked}}"  />
+        </block>
+        </view>
+
+        
+
+        <!-- 提交 -->
+
+        <button class="submitBtn" type="primary" form-type='submit'>Upload 上传视频</button>
+        
+        <button class="gobackBtn" type="warn" form-type='reset'>Reset 重置</button>
+    </form>
+</view>

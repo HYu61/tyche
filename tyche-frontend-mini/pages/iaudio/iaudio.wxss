@@ -1,0 +1,33 @@
+.audio-wapper {
+  width: 96%;
+  height: 100rpx;
+  background-color: ghostwhite;
+  border: 1px solid gainsboro;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 15rpx;
+  margin-top: 10rpx;
+}
+
+.ico {
+  width: 80rpx;
+  height: 80rpx;
+  align-self: center;
+}
+
+.words {
+  align-self: center;
+  text-align: center;
+}
+
+.song-name {
+  font-size: 18px;
+}
+
+.singer {
+  font-size: 14px;
+  color: gray;
+}

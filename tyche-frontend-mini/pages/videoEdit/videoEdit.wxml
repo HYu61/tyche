@@ -1,0 +1,24 @@
+<!--pages/videoEdit/videoEdit.wxml-->
+
+<view>
+  <form bindsubmit='doEditVideo'>
+    <view class="inputView">
+      Video Desc: <input name="videoDesc" class="inputText" value="{{videoDesc}}" />
+    </view>
+    <view class="line"></view>
+    <block wx:if="{{isVipUser}}">
+    <view class="vipVideo-label">
+      <label class="loginLabel">Set as vip-video:</label>
+      <switch name="vipVideo" class="inputSwitch" bindchange="switchChange" checked="{{videoStatus}}" />
+    </view>
+  </block>
+    <view class="line"></view>
+
+    <!--buttom-->
+    <view class="btnView">
+      <button class="loginBtn" type="primary" form-type='submit'>Save 保存</button>
+      <button class="loginBtn" type="warn" bindtap="goBack">Back 返回</button>
+
+    </view>
+  </form>
+</view>

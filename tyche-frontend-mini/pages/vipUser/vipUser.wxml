@@ -1,0 +1,26 @@
+<view>
+
+    <view class="login-from">
+        <form bindsubmit='doVip'>
+
+            <!--vip questoin-->
+            <view class="inputView">
+                <label class="loginLabel">回答问题开启VIP</label>
+            </view>
+            <view class="line"></view>
+
+            <view class="inputView">
+            
+                <label class="loginLabel">小金鱼的名字：</label>
+                <input name="vipPass" class="inputText"  placeholder="The name of niuniu?"/>
+            </view>
+
+            <!--buttom-->
+            <view>
+                <button class="loginBtn" type="primary" form-type='submit'>Submit 提交</button>
+                <button class="loginBtn" type="warn" bindtap="goBack">Back 返回</button>
+            </view>
+
+        </form>
+    </view>
+</view>

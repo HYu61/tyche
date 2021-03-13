@@ -1,0 +1,105 @@
+<view style='width:100%;height:100%;'>
+
+    <video id="myVideo" src="{{src}}" muted="{{false}}" controls="{{false}}" autoplay="{{true}}" loop="{{true}}"
+        enable-progress-gesture="{{false}}" style='width:100%;height:100%;' objectFit='{{fit}}' bindtap="videoTap">
+
+        <cover-image class="playImg" src="../resource/images/play.png" wx:if="{{!play}}"></cover-image>
+        <cover-view class='container'>
+            <!-- 上传视频 -->
+
+            <cover-image src='../resource/images/camera.png' style='width:50rpx;height:50rpx;' bindtap='uploadVideo'>
+            </cover-image>
+
+
+            <!-- 搜索按钮 -->
+            <cover-image src='../resource/images/search.png' style='width:45rpx;height:45rpx;' bindtap='showSearch'>
+            </cover-image>
+
+        </cover-view>
+
+
+        <cover-view class='container-me'>
+            <!-- 头像 -->
+            <cover-image class="face" src='{{profileSrc}}' bindtap='showPublisher'></cover-image>
+
+
+            <!-- 喜欢收藏按钮 -->
+            <block wx:if="{{userLikeVideo}}">
+                <cover-image class="size-me" src='../resource/images/like.png' style='margin-top:30rpx;'
+                    bindtap='likeVideoOrNot'></cover-image>
+            </block>
+            <block wx:else>
+                <cover-image class="size-me" src='../resource/images/unlike.png' style='margin-top:30rpx;'
+                    bindtap='likeVideoOrNot'></cover-image>
+            </block>
+
+            <cover-view wx:if="{{videoLikeCount}}" class="likeCount">
+                {{videoLikeCount}}
+            </cover-view>
+            <!-- 评论按钮 -->
+            <cover-image class="size-me" src='../resource/images/comments.png' style='margin-top:30rpx;'
+                bindtap='leaveComment'></cover-image>
+
+            <!-- 举报和下载按钮 -->
+            <cover-image class="size-me" src='../resource/images/follow.png' style='margin-top:30rpx;'
+                bindtap='moreInfo'>
+            </cover-image>
+
+            <!-- <cover-image class="size-me" src='../resource/images/share.png' style='margin-top:30rpx;' bindtap='xxx'>
+            </cover-image> -->
+
+
+        </cover-view>
+        <cover-view class='container-words'>
+            <cover-view>@{{videoDetail.nickname}}</cover-view>
+            <cover-view class='video-desc'>{{videoDetail.videoDesc}}</cover-view>
+        </cover-view>
+        <cover-view class='container-bottom'>
+            <!-- 首页按钮 -->
+            <cover-image class='' src='../resource/images/index.png' class="size-bottom" bindtap='showIndex'>
+            </cover-image>
+
+            <!-- <button class="btn1" open-type="share" style="width:110rpx;background-color: transparent;color:white;">
+                share
+            </button> -->
+
+            <!-- 我的按钮 -->
+            <cover-image class='' src='../resource/images/mine.png' class="size-bottom" bindtap='showMine'>
+            </cover-image>
+        </cover-view>
+    </video>
+
+</view>
+
+<view>
+
+    <view class="saySthView">
+        <input name="commentContent" class="saySth" placeholder="{{placeholder}}" confirm-type="send"
+            focus='{{commentFocus}}' bindconfirm="saveComment" value='{{contentValue}}'
+            data-replyParenetCommentId='{{replyParenetCommentId}}' data-replyToUserId='{{replyToUserId}}' />
+    </view>
+
+    <block wx:for="{{commentsList}}">
+        <view class='comments-all' bindtap='replyFocus' data-parenetCommentId='{{item.id}}'
+            data-toUserId='{{item.fromUserId}}' data-toNickname='{{item.nickname}}'>
+            <view class='container-comments'>
+                <image class="face-comments" src='{{serverUrl}}{{item.profilePhoto}}'></image>
+                <view class='nickname-comments'>
+                    <label class='nickname-lbl'>@{{item.nickname}}</label>
+                    于
+                    <label class='date-lbl'>{{item.timeAgoStr}}</label>
+                    <!-- 留言： -->
+                    <block wx:if="{{item.toNickname != null}}">
+                        回复
+                        <label class='nickname-lbl'>@{{item.toNickname}}</label>
+                    </block>
+                    <block wx:else>
+                        留言：
+                    </block>
+                </view>
+            </view>
+            <view class='comments-content'>{{item.comment}}</view>
+        </view>
+    </block>
+
+</view>

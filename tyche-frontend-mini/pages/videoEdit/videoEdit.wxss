@@ -1,0 +1,52 @@
+/* pages/videoEdit/videoEdit.wxss */
+
+/* pages/editNickname/editNickname.wxss */
+
+/*表单内容*/
+.inputView {
+  background-color: white;
+  line-height: 45px;
+}
+.inputText {
+  margin: 15px 5px 15px 5px;
+  color: gray;
+  font-size: 18px;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: gainsboro;
+  margin-top: 1px;
+}
+
+/*按钮*/
+.saveBtn {
+  /* width: 100px; */
+  margin-top: 35px;
+  font-size: 13px;
+  height: 33px;
+  padding-top: 1;
+  
+}
+
+.loginBtn {
+  width: 80%;
+  margin-top: 35px;
+}
+
+.goLoginBtn {
+  width: 80%;
+  margin-top: 15px;
+}
+
+.inputSwitch {
+  float: right;
+  width: 20%;
+  margin-right: 20px;
+}
+
+.vipVideo-label{
+  margin-top: 15px;
+  height: 50px;
+}

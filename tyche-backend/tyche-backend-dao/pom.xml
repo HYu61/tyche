@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tyche-backend</artifactId>
+        <groupId>pers.hyu</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>tyche-backend-dao</artifactId>
+
+    <properties>
+        <!-- the location of the Mybatis Generator config file  -->
+        <plugin.generator.configurationFile>src/main/resources/mybatis-generator-config.xml
+        </plugin.generator.configurationFile>
+        <!-- Overwrite the exists files -->
+        <plugin.generator.overwrite>true</plugin.generator.overwrite>
+        <!-- The root path of the targetProject in the generator  -->
+        <generator.project.root>C:/private project/tyche/tyche-backend</generator.project.root>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>pers.hyu</groupId>
+            <artifactId>tyche-backend-pojo</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+
+            <!--            use mybatis generator to auto generate entity and dao from the database-->
+<!--            <plugin>-->
+<!--                <groupId>org.mybatis.generator</groupId>-->
+<!--                <artifactId>mybatis-generator-maven-plugin</artifactId>-->
+<!--                <version>${mybatis.generator.versoin}</version>-->
+<!--                <configuration>-->
+<!--                    <overwrite>${plugin.generator.overwrite}</overwrite>-->
+<!--                    <configurationFile>${plugin.generator.configurationFile}</configurationFile>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>Generate MyBatis Artifacts</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.mariadb.jdbc</groupId>-->
+<!--                        <artifactId>mariadb-java-client</artifactId>-->
+<!--                        <version>${mariadb.version}</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
+        </plugins>
+
+        <!--        <resources>-->
+        <!--            &lt;!&ndash;  如果不加，那么打包的时候mapper文件不会被加载进来  &ndash;&gt;-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/java</directory>-->
+        <!--                <includes>-->
+        <!--                    <include>**/*.properties</include>-->
+        <!--                    <include>**/*.xml</include>-->
+        <!--                </includes>-->
+        <!--                <filtering>false</filtering>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
+    </build>
+
+
+</project>

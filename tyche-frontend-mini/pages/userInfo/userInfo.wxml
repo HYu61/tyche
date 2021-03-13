@@ -1,0 +1,151 @@
+<view class="base">
+
+  <view class="header-view" wx:if="{{isMe}}">
+    <view class="logout-label">
+      <label size='mini' type='' bindtap='logout'>Logout</label>
+    </view>
+
+    <view class='upload-view'>
+      <label size='mini' type='' bindtap='uploadVideo'> Upload Video</label>
+    </view>
+  </view>
+
+  <view class='container'>
+    <!-- profile image -->
+    <block wx:if="{{isMe}}">
+      <image src="{{profileUrl}}" class="profile" bindtap='changeProfile'></image>
+      <label class='nickname' bindtap='changeNickname'>{{nickname}}</label>
+    </block>
+    <block wx:if="{{!isMe}}">
+      <image src="{{profileUrl}}" class="profile"></image>
+      <label class='nickname'>{{nickname}}</label>
+    </block>
+
+    <!-- vip lable -->
+    <view class="vipicon-view">
+      <block wx:if="{{isVip}}">
+        <image src="{{vipIcon}}" class="vipicon"></image>
+      </block>
+
+      <block wx:if="{{!isVip && isMe}}">
+        <button style=" font-size: 10pt" size='mini' type='primary' bindtap='upgradeVip'>Become VIP</button>
+      </block>
+    </view>
+
+
+
+
+    <view class='container-row'>
+      <label class='info-items'>{{followCounts}} Follow</label>
+      <label class='info-items'>{{followerCounts}} Follower</label>
+      <label class='info-items'>{{receiveLikeCounts}} Like</label>
+    </view>
+
+
+    <block wx:if="{{!isMe}}">
+      <block wx:if="{{isFollowed}}">
+        <button size='mini' class='' bindtap='followMe' data-followType="0"> 已关注</button>
+      </block>
+      <block wx:if="{{!isFollowed}}">
+        <button size='mini' type='primary' class='logout' bindtap='followMe' data-followType="1">关注我</button>
+      </block>
+    </block>
+
+
+  </view>
+
+
+
+  <!-- <view class="line"></view> -->
+  <view class='container-video'>
+    <!-- 发布过的作品 -->
+    <view class='{{videoSelClass}} {{isSelectedVideos}}' bindtap='doSelectVideos'>作品 <block
+        wx:if="{{!myVideoList.length == 0}}">{{myVideoList.length}}</block>
+    </view>
+    <!-- 收藏的点赞的视频 -->
+    <view class='{{videoSelClass}} {{isSelectedLike}}' bindtap='doSelectLike'>收藏 <block
+        wx:if="{{!likeVideoList.length == 0}}">{{likeVideoList.length}}</block>
+    </view>
+    <!-- 用户关注de人 -->
+    <view class='{{videoSelClass}} {{isSelectedFollow}}' bindtap='doSelectFollow'>关注 <block
+        wx:if="{{!followList.length == 0}}">{{followList.length}}</block>
+    </view>
+  </view>
+
+
+</view>
+
+<view class='container-video-list'>
+  <block wx:if="{{isMe}}">
+    <view hidden='{{myVideoFalg}}'>
+      <block wx:for="{{myVideoList}}">
+        <view class="base-uif">
+      <image src='{{serverUrl}}{{item.coverPath}}' class='uif-videoImage' mode="aspectFill" bindtap='showVideo'
+        data-arrindex='{{index}}'></image>
+          <block wx:if="{{item.videoDesc != ''}}">
+            <text class="uif-video-text" bindtap="videoAction" data-arrindex='{{index}}'> {{item.videoDesc}}</text>
+          </block>
+
+          <block wx:if="{{item.videoDesc == ''}}">
+            <text class="uif-video-text-null" bindtap="videoAction" data-arrindex='{{index}}'>no desc</text>
+          </block>
+        <image src="{{item.status == 1 ? vipVideoIcon : null}}" class="uif-vipicon"></image>
+      </view>
+      </block>
+    </view>
+
+    
+  </block>
+
+  <block wx:if="{{!isMe}}">
+    <view hidden='{{myVideoFalg}}'>
+      <block wx:for="{{myVideoList}}">
+        <view class="base-uif">
+      <image src='{{serverUrl}}{{item.coverPath}}' class='uif-videoImage' mode="aspectFill" bindtap='showVideo'
+        data-arrindex='{{index}}'></image>
+
+        <text class="uif-video-text"> {{item.videoDesc}}</text>
+        <image src="{{item.status == 1 ? vipVideoIcon : null}}" class="uif-vipicon"></image>
+      </view>
+      </block>
+    </view>
+
+    </block>
+
+  <view hidden='{{myLikesFalg}}'>
+    <block wx:if="{{likeVideoList.length == 0}}">
+      No content yet, please add some!
+    </block>
+    <block wx:for="{{likeVideoList}}">
+      <view class="base-uif">
+        
+      <image src='{{serverUrl}}{{item.coverPath}}' class='uif-videoImage' mode="aspectFill" bindtap='showVideo'
+        data-arrindex='{{index}}'></image>
+
+        <text class="uif-video-text"> {{item.videoDesc}}</text>
+        <image src="{{item.status == 1 ? vipVideoIcon : null}}" class="uif-vipicon"></image>
+      </view>
+    </block>
+  </view>
+
+  <view hidden='{{myFollowFalg}}'>
+    <block wx:if="{{followList.length == 0}}">
+      No follow, please follow one!
+    </block>
+    <block wx:for="{{followList}}">
+      <view class="base-uif">
+
+        <image src='{{item.profilePhoto == null? defaultProfileUrl : serverUrl+item.profilePhoto}}' class='uif-profile'
+          mode="aspectFill" bindtap='showUser' data-arrindex='{{index}}'></image>
+
+        <text class="uif-text"> {{item.nickname}}</text>
+        <!-- <block wx:if="{{item.status == 1}}" class="uif-vip">
+          <image src="{{vipIcon}}" class="vipicon"></image>
+        </block> -->
+        <image src="{{item.status == 1 ? vipIcon : null}}" class="uif-vipicon"></image>
+      </view>
+
+    </block>
+  </view>
+
+</view>

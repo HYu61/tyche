@@ -28,7 +28,6 @@ Page({
 
     let me = this;
     let videoInfo = JSON.parse(params.videoInfo);
-    console.log(videoInfo)
     me.setData({
       videoId: videoInfo.id,
       videoDesc: videoInfo.videoDesc,
@@ -37,9 +36,7 @@ Page({
       videoInfo: videoInfo
     })
 
-    console.log(params)
-    console.log(me.data.videoStatus)
-    console.log(me.data.isVipUser)
+
   },
 
   doEditVideo: function (e) {
@@ -48,7 +45,6 @@ Page({
     let videoStatus = me.data.videoStatus;
     let videoId = me.data.videoId;
 
-    console.log(videoId)
     let url = app.serverUrl + "/videos/" + videoId;
 
     wx.request({
@@ -63,7 +59,6 @@ Page({
         "Authorization": app.getUserId() + "::" + app.getUserToken(),
       },
       success: function (res) {
-        console.log(res)
     
         if (res.data.code == 200) {
           wx.redirectTo({

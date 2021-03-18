@@ -190,7 +190,6 @@ public class UserController {
      * @return The response of the edit user request that contains the user info; if there is no such user, return null
      */
 
-    // TODO PatchMapping
     @ApiOperation(value = "Update the info of the user", notes = "Update the info of the user except of the profile of the user")
     @ApiImplicitParam(name = "Authorization", value = "User Token",
             dataType = "String", paramType = "header", required = true, example = "userId::userToken")
@@ -211,12 +210,23 @@ public class UserController {
         // update the user's status to the vip user; only upgrade to vip when the vipPass is not null.
         String vipPass = userEditModel.getVipPass();
         if (vipPass != null) {
+            String vipVideoAccessQuestion = userEditModel.getVipVideoAccessQuestion();
+            String vipVideoAccessAnswer = userEditModel.getVipVideoAccessAnswer();
+            if(StringUtils.isBlank(vipVideoAccessAnswer) || StringUtils.isBlank(vipVideoAccessQuestion)){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
+            }
             // if the vipPass is correct, update the status of the user to vip
             if (userService.vipPassed(vipPass) && userService.isUserExists(userId)) {
                 userDto.setStatus(UserStatus.VIP.getStatusCode());
 
                 // create the vip folder for store the vip video
                 userService.initFolder(userId, new String[]{FolderNameEnum.VIP.getFolderName()});
+
+                //create the vip video access question and answer
+                userDto.setVipVideoAccessQuestion(vipVideoAccessQuestion);
+                userDto.setVipVideoAccessAnswer(vipVideoAccessAnswer);
+
             } else {
                 // if the vipPass is incorrect, return a 403 response with an error message
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
@@ -224,7 +234,8 @@ public class UserController {
             }
         }
         // update the info into DB.
-        int result = userService.editUser(userId, userDto);
+
+        int result = userService.editUser(userId, userDto, userEditModel.isDeleteVipVideoAccess());
         if (result == 0) {
             return ResponseEntity.ok().body(ResponseEnvelope.error(-1, ErrorMessages.COULD_NOT_UPDATE_RECORD.getErrorMessage()));
         }
@@ -284,7 +295,7 @@ public class UserController {
 
         UserDto userDto = new UserDto();
         userDto.setProfilePhoto(dbStoredPath);
-        userService.editUser(userId, userDto);
+        userService.editUser(userId, userDto, false);
 
         return ResponseEntity.ok(ResponseEnvelope.ok(dbStoredPath));
     }

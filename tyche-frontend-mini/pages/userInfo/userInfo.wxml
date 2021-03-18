@@ -23,12 +23,16 @@
 
     <!-- vip lable -->
     <view class="vipicon-view">
-      <block wx:if="{{isVip}}">
-        <image src="{{vipIcon}}" class="vipicon"></image>
+      <block wx:if="{{isVip && !isMe}}">
+        <image src="{{vipIcon}}" class="vipicon" ></image>
       </block>
 
       <block wx:if="{{!isVip && isMe}}">
         <button style=" font-size: 10pt" size='mini' type='primary' bindtap='upgradeVip'>Become VIP</button>
+      </block>
+
+      <block wx:if="{{isVip && isMe}}">
+        <image src="{{vipIcon}}" class="vipicon" bindtap="editVipVideoAccess"></image>
       </block>
     </view>
 

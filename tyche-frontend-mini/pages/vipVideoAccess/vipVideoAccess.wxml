@@ -1,0 +1,33 @@
+<!--pages/vipVideoAccess/vipVideoAccess.wxml-->
+<view>
+
+<view class="login-from">
+    <form bindsubmit='doVipVideoAccess'>
+
+        
+         <!--vip video access questoin and answer-->
+         <view class="inputView">
+            <label class="loginLabel">该视频被设置为VIP视频， 请回答以下问题</label>
+        </view>
+        <!-- <view class="line"></view> -->
+
+        <view class="inputView">
+        
+            <label class="loginLabel">问题：</label>
+            <input name="vipVideoAccessQuestion" class="inputText"  value="{{vipVideoAccessQuestion}}"/>
+        </view>
+        <view class="inputView">
+            <label class="loginLabel">答案: </label>
+            <input name="vipVideoAccessAnswer" class="inputText"  placeholder="Access Answer"/>
+        </view>
+        
+
+        <!--buttom-->
+        <view>
+            <button class="loginBtn" type="primary" form-type='submit'>Submit 提交</button>
+            <button class="loginBtn" type="warn" bindtap="goBack">Back 返回</button>
+        </view>
+
+    </form>
+</view>
+</view>

@@ -16,6 +16,8 @@
     <result column="received_like_counts" jdbcType="INTEGER" property="receivedLikeCounts" />
     <result column="status" jdbcType="BIT" property="status" />
     <result column="security_answer" jdbcType="VARCHAR" property="securityAnswer" />
+    <result column="vip_video_access_question" jdbcType="VARCHAR" property="vipVideoAccessQuestion" />
+    <result column="vip_video_access_answer" jdbcType="VARCHAR" property="vipVideoAccessAnswer" />
   </resultMap>
 
   <resultMap id="ResponseMap" type="pers.hyu.tyche.pojo.model.response.UserResponseModel">

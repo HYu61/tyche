@@ -1,0 +1,32 @@
+<!--pages/editVipVideoAccess/editVipVideoAccess.wxml-->
+<view>
+
+<view class="login-from">
+    <form bindsubmit='editVipVideoAccess'>
+
+         <!--vip video access questoin and answer-->
+         <view class="inputView">
+            <label class="loginLabel">修改vip video问题和答案</label>
+        </view>
+        <!-- <view class="line"></view> -->
+
+        <view class="inputView">
+        
+            <label class="loginLabel">问题：</label>
+            <input name="vipVideoAccessQuestion" class="inputText"  placeholder="new question"/>
+        </view>
+        <view class="inputView">
+            <label class="loginLabel">答案: </label>
+            <input name="vipVideoAccessAnswer" class="inputText" placeholder="new answer"/>
+        </view>
+        
+
+        <!--buttom-->
+        <view>
+            <button class="loginBtn" type="primary" form-type='submit'>Submit 提交</button>
+            <button class="loginBtn" type="warn" bindtap="goBack">Back 返回</button>
+        </view>
+
+    </form>
+</view>
+</view>

@@ -47,7 +47,6 @@ Page({
         },
         success: function (res) {
 
-          console.log(res)
           wx.hideLoading();
           // successful authentitatoin with username and password
           if(res.statusCode == 200){

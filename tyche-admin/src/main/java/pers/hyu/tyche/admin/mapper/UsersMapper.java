@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import pers.hyu.tyche.admin.pojo.Users;
 import pers.hyu.tyche.admin.pojo.UsersExample;
+
 @Repository
 public interface UsersMapper {
     /**

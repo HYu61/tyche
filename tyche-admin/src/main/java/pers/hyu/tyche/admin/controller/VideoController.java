@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pers.hyu.tyche.admin.pojo.dto.VideoDto;
 import pers.hyu.tyche.admin.service.VideoService;
 import pers.hyu.tyche.enums.ErrorMessages;
 import pers.hyu.tyche.utils.PagedResult;
@@ -21,10 +22,22 @@ public class VideoController {
         return "video/reportList";
     }
 
+    @GetMapping("/showVideoList")
+    public String showVideoList(){
+        return "video/videoList";
+    }
+
     @GetMapping("/reportedVideoList")
     @ResponseBody
     public PagedResult getAllReportedVideo(Integer page){
         PagedResult result = videoService.selectAllReportedVideos(page == null ? 1: page, 10);
+        return result;
+    }
+
+    @GetMapping("/videoList")
+    @ResponseBody
+    public PagedResult getAllVideo(VideoDto videoDto, Integer page){
+        PagedResult result = videoService.selectAllVideos(videoDto, page == null ? 1: page, 10);
         return result;
     }
 

@@ -23,6 +23,8 @@ public class UserDto implements Serializable {
     //the status of the user: -1、inactive, 0、active, 1 vip_user
     private Integer status;
     private String securityAnswer;
+    private String vipVideoAccessQuestion;
+    private String vipVideoAccessAnswer;
 
     public String getId() {
         return id;
@@ -110,5 +112,21 @@ public class UserDto implements Serializable {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    public String getVipVideoAccessQuestion() {
+        return vipVideoAccessQuestion;
+    }
+
+    public void setVipVideoAccessQuestion(String vipVideoAccessQuestion) {
+        this.vipVideoAccessQuestion = vipVideoAccessQuestion;
+    }
+
+    public String getVipVideoAccessAnswer() {
+        return vipVideoAccessAnswer;
+    }
+
+    public void setVipVideoAccessAnswer(String vipVideoAccessAnswer) {
+        this.vipVideoAccessAnswer = vipVideoAccessAnswer;
     }
 }

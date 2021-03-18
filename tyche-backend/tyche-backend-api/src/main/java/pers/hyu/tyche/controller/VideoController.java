@@ -13,14 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 import pers.hyu.tyche.enums.ErrorMessages;
 import pers.hyu.tyche.enums.FolderNameEnum;
 import pers.hyu.tyche.enums.MediaTypeEnum;
-import pers.hyu.tyche.enums.UserStatus;
 import pers.hyu.tyche.pojo.model.dto.VideoDto;
 import pers.hyu.tyche.pojo.model.request.UserRelationModel;
 import pers.hyu.tyche.pojo.model.request.VideoInfoEditModel;
 import pers.hyu.tyche.pojo.model.request.VideoInfoModel;
+import pers.hyu.tyche.pojo.model.request.VipVideoAccessAnswerModel;
 import pers.hyu.tyche.service.BgmService;
 import pers.hyu.tyche.service.UserService;
 import pers.hyu.tyche.service.VideoService;
+import pers.hyu.tyche.service.VipVideoAccessService;
 import pers.hyu.tyche.utils.EntityUtils;
 import pers.hyu.tyche.utils.PagedResult;
 import pers.hyu.tyche.utils.ResponseEnvelope;
@@ -48,6 +49,8 @@ public class VideoController {
     private VideoService videoService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private VipVideoAccessService vipVideoAccessService;
 
 
     /**
@@ -66,7 +69,7 @@ public class VideoController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Missing or invalid request body"),
             @ApiResponse(code = 500, message = "Internal server error")})
-    @PostMapping(value = "/videos",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+    @PostMapping(value = "/videos", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseEnvelope<?>> uploadVideo(@ApiParam(value = "video need to be upload", required = true)
                                                            @RequestPart MultipartFile file,
@@ -78,7 +81,7 @@ public class VideoController {
                     .body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
         }
         String userId = videoInfoModel.getUserId();
-        if(!userService.isUserExists(userId)){
+        if (!userService.isUserExists(userId)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(ResponseEnvelope.error(-1, ErrorMessages.NO_RECORD_FOUND.getErrorMessage()));
         }
@@ -160,7 +163,7 @@ public class VideoController {
      * Get all the covers of the videos from the video publisher.
      *
      * @param userId The id of the video publisher.
-     * @param page The num of the pagination.
+     * @param page   The num of the pagination.
      * @return The list of the covers of the videos.
      */
     @ApiOperation(value = "Get all the covers of the videos from the video publisher.")
@@ -168,10 +171,10 @@ public class VideoController {
             @ApiResponse(code = 400, message = "Missing or invalid request body")})
     @GetMapping(value = "/users/{publisherId}/videos/covers")
     public ResponseEntity<ResponseEnvelope<?>> getVideoCoversByPublisher(@PathVariable(name = "publisherId") String userId,
-                                                                         @RequestParam(required = false) Integer page){
+                                                                         @RequestParam(required = false) Integer page) {
 
-        if(StringUtils.isBlank(userId)){
-            return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1,ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
+        if (StringUtils.isBlank(userId)) {
+            return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
         }
         PagedResult result = videoService.getVideoCoversByPublisher(userId, page == null ? 1 : page, limit);
         return ResponseEntity.ok(ResponseEnvelope.ok(result));
@@ -181,7 +184,7 @@ public class VideoController {
      * Get all the covers of the videos that the user liked.
      *
      * @param userId The id of the login user.
-     * @param page The num of the pagination.
+     * @param page   The num of the pagination.
      * @return The list of the covers of the videos.
      */
     @ApiOperation(value = "Get all the covers of the videos that the login user liked.")
@@ -189,10 +192,10 @@ public class VideoController {
             @ApiResponse(code = 400, message = "Missing or invalid request body")})
     @GetMapping(value = "/users/{userId}/videos/liked/covers")
     public ResponseEntity<ResponseEnvelope<?>> getVideoCoversByUserLiked(@PathVariable String userId,
-                                                                         @RequestParam(required = false) Integer page){
+                                                                         @RequestParam(required = false) Integer page) {
 
-        if(StringUtils.isBlank(userId)){
-            return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1,ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
+        if (StringUtils.isBlank(userId)) {
+            return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
         }
         PagedResult result = videoService.getVideoCoversByUserLiked(userId, page == null ? 1 : page, limit);
         return ResponseEntity.ok(ResponseEnvelope.ok(result));
@@ -238,14 +241,9 @@ public class VideoController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Missing or invalid request body")})
     @GetMapping(value = "/vip_videos/{videoId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseEnvelope<?>> getVipVideoDetail(@PathVariable String videoId, @RequestParam String loginUserId) {
-        if (StringUtils.isBlank(videoId) || StringUtils.isBlank(loginUserId)) {
+    public ResponseEntity<ResponseEnvelope<?>> getVipVideoDetail(@PathVariable String videoId, @RequestParam String publisherId, @RequestParam String loginUserId) {
+        if (StringUtils.isBlank(videoId)) {
             return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
-        }
-
-        // Check if the login user is vip
-        if ( !userService.isUserExists(loginUserId)|| (userService.isUserExists(loginUserId)&&userService.getUserById(loginUserId).getStatus() != UserStatus.VIP.getStatusCode())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseEnvelope.error(-1, ErrorMessages.AUTHENTICATION_FAILED.getErrorMessage()));
         }
 
         VideoDto result = videoService.getVideoById(videoId, loginUserId);
@@ -254,6 +252,41 @@ public class VideoController {
         }
 
         return ResponseEntity.ok(ResponseEnvelope.ok(result));
+    }
+
+
+    /**
+     * The login user send the vip video access answer. If it corrects, then the user can access the vip video.
+     *
+     * @param vipVideoAccessAnswerModel The model includes the video publihserId, the loginUserId, and the answer.
+     * @return The response for if the answer correct.
+     */
+    @ApiOperation(value = "Send the vip video access answer for get the right to access the vip video.")
+    @ApiImplicitParam(name = "Authorization", value = "User Token",
+            dataType = "String", paramType = "header", required = true, example = "userId::userToken")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Missing or invalid request body"),
+    @ApiResponse(code = 403, message = "The answer is incorrect!")})
+    @PostMapping("/vip_videos/access_relationships")
+    public ResponseEntity<ResponseEnvelope<?>> addVipVideoAccess(@RequestBody VipVideoAccessAnswerModel vipVideoAccessAnswerModel) throws IllegalAccessException {
+        if (entityUtils.isNotAllFieldHasText(vipVideoAccessAnswerModel)) {
+            return ResponseEntity.badRequest().body(ResponseEnvelope.error(-400, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
+
+        }
+        int result = vipVideoAccessService.addUserAccess(vipVideoAccessAnswerModel.getPublisherId(),
+                vipVideoAccessAnswerModel.getLoginUserId(),
+                vipVideoAccessAnswerModel.getVipVideoAccessAnswer());
+
+        if (result < 0) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseEnvelope.error(-1, ErrorMessages.ANSWER_INCORRECT.getErrorMessage()));
+
+        } else if (result == 0) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseEnvelope.error(-1, ErrorMessages.INTERNAL_SERVER_ERROR.getErrorMessage()));
+
+        } else {
+            return ResponseEntity.ok(ResponseEnvelope.ok(null));
+        }
+
     }
 
 
@@ -296,7 +329,7 @@ public class VideoController {
      * Edit the info of the video.
      * Include the description and the status of the video.
      *
-     * @param videoId The id of which video need to be edited.
+     * @param videoId            The id of which video need to be edited.
      * @param videoInfoEditModel The model include the info of the video needed to be edited.
      * @return
      * @throws IllegalAccessException
@@ -317,7 +350,7 @@ public class VideoController {
         }
 
         int result = videoService.editVideo(videoId, videoInfoEditModel.getVideoDesc(), videoInfoEditModel.getVipVideo());
-        if(result == -1){
+        if (result == -1) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ResponseEnvelope.error(-1, "Video is inactive, can not edit!"));
         }
         return ResponseEntity.ok(ResponseEnvelope.ok(null));
@@ -337,16 +370,17 @@ public class VideoController {
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Missing or invalid request body")})
     @DeleteMapping("/videos/{videoId}")
-    public ResponseEntity<ResponseEnvelope<?>> removeVideo(@PathVariable String videoId){
-        if (StringUtils.isBlank(videoId) ) {
+    public ResponseEntity<ResponseEnvelope<?>> removeVideo(@PathVariable String videoId) {
+        if (StringUtils.isBlank(videoId)) {
             return ResponseEntity.badRequest().body(ResponseEnvelope.error(-1, ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage()));
         }
 
         int result = videoService.removeVideo(videoId);
-        if(result < 1){
+        if (result < 1) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(ResponseEnvelope.error(-1, ErrorMessages.COULD_NOT_DELETE_RECORD.getErrorMessage()));
         }
         return ResponseEntity.ok(ResponseEnvelope.ok(null));
     }
+
 
 }

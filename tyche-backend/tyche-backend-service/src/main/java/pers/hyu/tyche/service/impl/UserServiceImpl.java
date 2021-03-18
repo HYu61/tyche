@@ -18,18 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
 import pers.hyu.tyche.dao.UsersFollowersMapper;
 import pers.hyu.tyche.dao.UsersMapper;
 import pers.hyu.tyche.dao.UsersMapperCustomized;
+import pers.hyu.tyche.dao.VipVideoAccessMapper;
 import pers.hyu.tyche.enums.ErrorMessages;
 import pers.hyu.tyche.enums.FolderNameEnum;
 import pers.hyu.tyche.enums.RedisKeyEnum;
 import pers.hyu.tyche.enums.UserStatus;
 import pers.hyu.tyche.exception.UserServiceException;
-import pers.hyu.tyche.pojo.entity.Users;
-import pers.hyu.tyche.pojo.entity.UsersExample;
-import pers.hyu.tyche.pojo.entity.UsersFollowers;
-import pers.hyu.tyche.pojo.entity.UsersFollowersExample;
+import pers.hyu.tyche.pojo.entity.*;
 import pers.hyu.tyche.pojo.model.dto.UserDto;
 import pers.hyu.tyche.pojo.model.response.UserResponseModel;
 import pers.hyu.tyche.service.UserService;
+import pers.hyu.tyche.service.VipVideoAccessService;
 import pers.hyu.tyche.utils.*;
 
 import java.beans.IntrospectionException;
@@ -71,6 +70,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UsersFollowersMapper usersFollowersMapper;
+
+    @Autowired
+    private VipVideoAccessService vipVideoAccessService;
 
 
     @Transactional(readOnly = true)
@@ -148,7 +150,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public int editUser(String userId, UserDto userDto) {
+    public int editUser(String userId, UserDto userDto, boolean deleteVipVideoAccess) {
 
         // get the updated info
         Users updateUser = new Users();
@@ -156,7 +158,14 @@ public class UserServiceImpl implements UserService {
         updateUser.setId(userId);
 
         // update the user
-        return usersMapper.updateByPrimaryKeySelective(updateUser);
+        int result =  usersMapper.updateByPrimaryKeySelective(updateUser);
+
+        // delete the vip video access relationship if the user has edit the access question and answer
+        if(deleteVipVideoAccess){
+           vipVideoAccessService.removeUserAccess(userId);
+        }
+
+        return result;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

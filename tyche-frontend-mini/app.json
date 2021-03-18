@@ -1,15 +1,19 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/userLogin/userLogin",
+"pages/vipVideoAccess/vipVideoAccess",
     "pages/userInfo/userInfo",
+"pages/editVipVideoAccess/editVipVideoAccess",
+    "pages/userLogin/userLogin",
+
+    "pages/vipUser/vipUser",
+
     "pages/videoEdit/videoEdit",
     "pages/resetPassword/resetPassword",
     "pages/userRegister/userRegister",
     "pages/chooseBgm/chooseBgm",
     "pages/searchVideo/searchVideo",
     "pages/videoInfo/videoInfo",
-    "pages/vipUser/vipUser",
     "pages/editNickname/editNickname",
     "pages/report/report"
   ],

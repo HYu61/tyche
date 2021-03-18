@@ -17,9 +17,12 @@ Page({
     profileUrl: "../resource/images/noneface.png",
     vipIcon: "../resource/images/vip_video.png",
 
+    displayBack: false,
+
   },
 
   onLoad: function (params) {
+    console.log(params)
 
     let me = this;
     let screenWidth = wx.getSystemInfoSync().screenWidth;
@@ -37,6 +40,7 @@ Page({
     } else {
       me.setData({
         searchContent: params.searchContent,
+        displayBack: true
       })
     }
     let searchContent = me.data.searchContent;
@@ -114,9 +118,14 @@ Page({
 
     // app.setVideoList(videoList);
 
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../videoInfo/videoInfo?videoInfo=' + videoInfo,
 
+    })
+  },
+  goBack: function () {
+    wx.redirectTo({
+      url: '../index/index',
     })
   }
 

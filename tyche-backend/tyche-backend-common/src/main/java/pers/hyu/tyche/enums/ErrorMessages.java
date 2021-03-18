@@ -16,7 +16,8 @@ public enum ErrorMessages {
     COULD_NOT_UPDATE_RECORD("Could not update record"),
     COULD_NOT_DELETE_RECORD("Could not delete record"),
     UPLOAD_FILE_NULL("Upload file is null"),
-    FORBIDDEN("Status is inactive");
+    FORBIDDEN("Status is inactive"),
+    ANSWER_INCORRECT("Vip Video Access Answer Incorrect");
 
     private String errorMessage;
 

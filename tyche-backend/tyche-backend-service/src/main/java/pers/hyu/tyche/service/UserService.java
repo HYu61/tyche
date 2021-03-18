@@ -84,9 +84,10 @@ public interface UserService extends UploadFileService {
      *
      * @param userId  The id of the user.
      * @param userDto The UserDto object that contains the user's info needed to be updated.
+     * @param deleteVipVideoAccess When the user edit the vip video access question and answer, delete the users access the vip video relations.
      * @return The num of the successful updated records.
      */
-    int editUser(String userId, UserDto userDto);
+    int editUser(String userId, UserDto userDto, boolean deleteVipVideoAccess);
 
     /**
      * The login user follow the video publisher.

@@ -7,10 +7,10 @@ package pers.hyu.tyche.pojo.model.request;
  */
 public class UserEditModel {
     private String nickname;
-//    private Integer followerCounts;
-//    private Integer followCounts;
-//    private Integer receivedLikeCounts;
     private String vipPass; // the answer of the question for upgrade vip
+    private String vipVideoAccessQuestion;
+    private String vipVideoAccessAnswer;
+    private boolean deleteVipVideoAccess;
 
     public String getVipPass() {
         return vipPass;
@@ -28,28 +28,27 @@ public class UserEditModel {
         this.nickname = nickname;
     }
 
-//    public Integer getFollowerCounts() {
-//        return followerCounts;
-//    }
-//
-//    public void setFollowerCounts(Integer followerCounts) {
-//        this.followerCounts = followerCounts;
-//    }
-//
-//    public Integer getFollowCounts() {
-//        return followCounts;
-//    }
-//
-//    public void setFollowCounts(Integer followCounts) {
-//        this.followCounts = followCounts;
-//    }
-//
-//    public Integer getReceivedLikeCounts() {
-//        return receivedLikeCounts;
-//    }
-//
-//    public void setReceivedLikeCounts(Integer receivedLikeCounts) {
-//        this.receivedLikeCounts = receivedLikeCounts;
-//    }
+    public String getVipVideoAccessQuestion() {
+        return vipVideoAccessQuestion;
+    }
 
+    public void setVipVideoAccessQuestion(String vipVideoAccessQuestion) {
+        this.vipVideoAccessQuestion = vipVideoAccessQuestion;
+    }
+
+    public String getVipVideoAccessAnswer() {
+        return vipVideoAccessAnswer;
+    }
+
+    public void setVipVideoAccessAnswer(String vipVideoAccessAnswer) {
+        this.vipVideoAccessAnswer = vipVideoAccessAnswer;
+    }
+
+    public boolean isDeleteVipVideoAccess() {
+        return deleteVipVideoAccess;
+    }
+
+    public void setDeleteVipVideoAccess(boolean deleteVipVideoAccess) {
+        this.deleteVipVideoAccess = deleteVipVideoAccess;
+    }
 }

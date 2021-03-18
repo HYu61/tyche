@@ -60,6 +60,8 @@ CREATE TABLE `users` (
 	`received_like_counts` INT(11) DEFAULT '0',
 	`status` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'the status of the user: -1、inactive, 0、active, 1 vip_user',
 	`security_answer` VARCHAR(20) NOT NULL COMMENT 'the answer for reset password',
+	`vip_video_access_question` VARCHAR(50) DEFAULT NULL COMMENT 'for the user provide the question for other user access this users vip video',
+	`vip_video_access_answer` VARCHAR(50) DEFAULT NULL COMMENT 'for other user access this users vip video',
 	PRIMARY KEY (`id`),
 	UNIQUE KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -125,6 +127,21 @@ CREATE TABLE `videos` (
   	`create_time` DATETIME NOT NULL,
   	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ----------------------------
+-- Table structure for vip_video_access
+-- ----------------------------
+DROP TABLE IF EXISTS `vip_video_access`;
+CREATE TABLE `vip_video_access` (
+	`id` VARCHAR(64) NOT NULL,
+	`publisher_id` VARCHAR(64) NOT NULL COMMENT 'the user posted the videos',
+	`user_id` VARCHAR(64) NOT NULL COMMENT 'the user who want to access the vip video',
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `publisher_user_vip_video_access_ref` (`publisher_id`, `user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='the relation table of the users who can access the publisher vip video';
+
+
 
 
 -- ------------------------------------

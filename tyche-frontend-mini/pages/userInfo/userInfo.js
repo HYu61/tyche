@@ -337,7 +337,6 @@ Page({
     let me = this;
     let userId = me.data.isMe ? app.getUserId() : me.data.publisherId;
 
-    console.log(userId)
     // 查询视频信息
     wx.showLoading();
     // 调用后端
@@ -349,7 +348,6 @@ Page({
         'content-type': 'application/json', // 默认值
       },
       success: function (res) {
-        console.log(res.data);
         let myVideoList = res.data.data.rows;
         wx.hideLoading();
 
@@ -392,8 +390,6 @@ Page({
           serverUrl: app.serverUrl
         });
 
-        console.log(me.data.likeVideoList);
-
       }
     })
   },
@@ -412,10 +408,9 @@ Page({
       method: "GET",
       header: {
         'content-type': 'application/json', // 默认值
-        // "Authorization": app.getUserId() + "::" + app.getUserToken()
+        "Authorization": app.getUserId() + "::" + app.getUserToken()
       },
       success: function (res) {
-        console.log(res.data);
         let followList = res.data.data.rows;
         wx.hideLoading();
 
@@ -472,7 +467,6 @@ Page({
 
     let arrindex = e.target.dataset.arrindex;
     let publisherUserId = followList[arrindex].id;
-    console.log(publisherUserId)
     // let redirectUrl = "../userInfo/userInfo#publisherId@" + publisherUserId;
     wx.navigateTo({
       url: '../userInfo/userInfo?publisherId=' + publisherUserId,
@@ -558,14 +552,12 @@ Page({
             wx.navigateTo({
               url: '../videoEdit/videoEdit?videoInfo=' + videoInfo + "&isVipUser=" + isVipUser,
             })
-            console.log(url)
           } else if (res.tapIndex == 1) {
             wx.showModal({
               title: 'Delete',
               content: '是否删除该视频',
               success(res) {
                 if (res.confirm) {
-                  console.log('用户点击确定' + videoId)
                   wx.request({
                     url: app.serverUrl + '/videos/' + videoId,
                     method: "DELETE",
@@ -574,7 +566,6 @@ Page({
                       "Authorization": app.getUserId() + "::" + app.getUserToken(),
                     },
                     success: function (res) {
-                      console.log(res)
                       if (res.statusCode == 401) {
                         let redirectUrl = "../userInfo/userInfo";
                         showMessageAndPauseredirect(res.data.message, "../userLogin/userLogin?redirectUrl=" + redirectUrl, "none")
@@ -597,6 +588,12 @@ Page({
         }
       })
     }
+  },
+
+  editVipVideoAccess: function(){
+    wx.navigateTo({
+      url: '../editVipVideoAccess/editVipVideoAccess',
+    })
   }
 
 })

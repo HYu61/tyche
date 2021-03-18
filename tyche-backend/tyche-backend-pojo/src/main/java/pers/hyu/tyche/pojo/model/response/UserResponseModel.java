@@ -22,8 +22,8 @@ public class UserResponseModel {
     private Integer receivedLikeCounts;
     private Integer status;
     private Boolean hasFollowed;
+    private String vipVideoAccessQuestion;
 
-    //TODO link with videos?????
 
 
     public String getId() {
@@ -104,5 +104,13 @@ public class UserResponseModel {
 
     public void setHasFollowed(Boolean hasFollowed) {
         this.hasFollowed = hasFollowed;
+    }
+
+    public String getVipVideoAccessQuestion() {
+        return vipVideoAccessQuestion;
+    }
+
+    public void setVipVideoAccessQuestion(String vipVideoAccessQuestion) {
+        this.vipVideoAccessQuestion = vipVideoAccessQuestion;
     }
 }

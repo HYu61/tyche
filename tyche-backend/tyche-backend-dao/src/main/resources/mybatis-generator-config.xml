@@ -42,5 +42,8 @@
             <columnOverride column="status" property="status" javaType="java.lang.Integer"/>
         </table>
 
+        <table tableName="vip_video_access"/>
+
+
     </context>
 </generatorConfiguration>

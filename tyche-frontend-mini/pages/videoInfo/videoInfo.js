@@ -21,8 +21,8 @@ Page({
 
 
     commentsPage: 1,
-    commentsTotalPage:1,
-    commentsList:[],
+    commentsTotalPage: 1,
+    commentsList: [],
 
 
     placeholder: "说点什么..."
@@ -37,11 +37,13 @@ Page({
     me.setData({
       videoInfo: videoInfo
     })
-console.log(videoInfo)
+    console.log(videoInfo)
     let userToken = app.getUserToken();
 
     let isVipVideo = videoInfo.vipVideo;
     let videoId = videoInfo.id;
+    let publisherId = videoInfo.userId;
+
 
     if (!isBlanks(app.getUserId())) {
       me.setData({
@@ -49,13 +51,12 @@ console.log(videoInfo)
       })
     }
 
-    let url = isVipVideo ? app.serverUrl + "/vip_videos/" + videoId + "?loginUserId=" + app.getUserId() :
+    let url = isVipVideo ? app.serverUrl + "/vip_videos/" + videoId + "?publisherId=" + publisherId + "&loginUserId=" + app.getUserId() :
       app.serverUrl + "/videos/" + videoId + "?loginUserId=" + app.getUserId();
-      let authorization="";
-      if(isVipVideo && !isBlanks(app.getUserId() && !isBlanks(userToken))){
-        authorization =  app.getUserId() + "::"+userToken;
-      }
-  console.log(url)
+    let authorization = "";
+    if (isVipVideo && !isBlanks(app.getUserId() && !isBlanks(userToken))) {
+      authorization = app.getUserId() + "::" + userToken;
+    }
     // get the video detail
     wx.showLoading({
       title: 'Loading...',
@@ -67,6 +68,7 @@ console.log(videoInfo)
         "Authorization": authorization,
       },
       success: function (res) {
+        console.log(res)
         wx.hideLoading();
         if (res.statusCode == 200) {
 
@@ -87,26 +89,20 @@ console.log(videoInfo)
 
         }
         // Only vip user can access the vip video
-        else  if(res.data.code == -2){
+        else if (res.statusCode == 401) { // user not login or token expired
           let redirectUrl = "../videoInfo/videoInfo#videoInfo@" + JSON.stringify(me.data.videoInfo);
           let reUrl = "../userLogin/userLogin"
           showMessageAndPauseredirect(res.data.message,
-          reUrl + "?redirectUrl=" + redirectUrl, "none")
+            reUrl + "?redirectUrl=" + redirectUrl, "none")
+        } else if (res.statusCode == 403) { // need to answer the publihser's vip video access question
+          // let redirectUrl = "../videoInfo/videoInfo#videoInfo@" + JSON.stringify(me.data.videoInfo);
+          let reUrl = "../vipVideoAccess/vipVideoAccess"
+          let videoInfo = JSON.stringify(me.data.videoInfo);
+          showMessageAndPauseNavigate("Answer question to access this video!",
+            reUrl + "?videoInfo=" + videoInfo, "none")
+
+
         }
-        else{
-          let redirectUrl = "../videoInfo/videoInfo#videoInfo@" + JSON.stringify(me.data.videoInfo);
-          let reUrl = "";
-          if(isBlanks(app.getUserId())){
-            reUrl = "../userLogin/userLogin"
-            showMessageAndPauseredirect("Please using VIP account to access this video!",
-            reUrl + "?redirectUrl=" + redirectUrl, "none")
-          }else{
-            reUrl = "../vipUser/vipUser"
-            showMessageAndPauseNavigate("Please upgrade VIP to access this video!",
-            reUrl + "?redirectUrl=" + redirectUrl, "none")
-          }
-          
-        } 
       }
     })
 
@@ -115,7 +111,7 @@ console.log(videoInfo)
 
     me.videoCtx = wx.createVideoContext('myVideo', me)
 
-   
+
   },
   videoTap: function () {
 
@@ -167,7 +163,7 @@ console.log(videoInfo)
     }
   },
   showSearch: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../searchVideo/searchVideo',
     })
   },
@@ -196,7 +192,7 @@ console.log(videoInfo)
   likeVideoOrNot: function () {
     let loginUserId = app.getUserId();
     let me = this;
-  
+
     let redirectUrl = "../videoInfo/videoInfo#videoInfo@" + JSON.stringify(me.data.videoDetail);
     if (isBlanks(loginUserId)) {
       showMessageAndPauseredirect("Please login first", "../userLogin/userLogin?redirectUrl=" + redirectUrl, "none");
@@ -217,8 +213,8 @@ console.log(videoInfo)
           "Authorization": app.getUserId() + "::" + app.getUserToken()
         },
         success: function (res) {
-          if(res.data.code <0){
-            showMessageAndPauseredirect(res.data.message,"../userLogin/userLogin?redirectUrl=" + redirectUrl, "none" )
+          if (res.data.code < 0) {
+            showMessageAndPauseredirect(res.data.message, "../userLogin/userLogin?redirectUrl=" + redirectUrl, "none")
           }
           if (likeVideo) {
             me.setData({
@@ -336,17 +332,17 @@ console.log(videoInfo)
     }
   },
 
-  leaveComment: function() {
+  leaveComment: function () {
     this.setData({
       commentFocus: true
     });
   },
 
-  replyFocus: function(e) {
+  replyFocus: function (e) {
     let parenetCommentId = e.currentTarget.dataset.parenetcommentid;
     let toUserId = e.currentTarget.dataset.touserid;
     let toNickname = e.currentTarget.dataset.tonickname;
- 
+
     this.setData({
       placeholder: "回复  " + toNickname,
       replyParenetCommentId: parenetCommentId,
@@ -355,18 +351,16 @@ console.log(videoInfo)
     });
   },
 
-  saveComment:function(e) {
+  saveComment: function (e) {
     let me = this;
     let content = e.detail.value;
 
     // 获取评论回复的fatherCommentId和toUserId
     let parenetCommentId = e.currentTarget.dataset.replyparenetcommentid;
     let toUserId = e.currentTarget.dataset.replytouserid;
-parenetCommentId = isBlanks(parenetCommentId)? " " : parenetCommentId;
-toUserId= isBlanks(toUserId) ? " " : toUserId;
+    parenetCommentId = isBlanks(parenetCommentId) ? " " : parenetCommentId;
+    toUserId = isBlanks(toUserId) ? " " : toUserId;
 
-console.log(parenetCommentId)
-console.log(toUserId)
 
     let user = app.getGlobalUserInfo();
     let loginUserId = app.getUserId();
@@ -398,14 +392,14 @@ console.log(toUserId)
           toUserId: toUserId
 
         },
-        success: function(res) {
+        success: function (res) {
           wx.hideLoading();
-          if(res.statusCode == 401){
-            showMessageAndPauseredirect(res.data.message, '../userLogin/userLogin?redirectUrl=' + realUrl,'none')
+          if (res.statusCode == 401) {
+            showMessageAndPauseredirect(res.data.message, '../userLogin/userLogin?redirectUrl=' + realUrl, 'none')
             // wx.navigateTo({
             //   url: '../userLogin/userLogin?redirectUrl=' + realUrl,
             // })
-          }else if(res.statusCode == 200){
+          } else if (res.statusCode == 200) {
             me.setData({
               contentValue: "",
               commentsList: []
@@ -419,19 +413,19 @@ console.log(toUserId)
     }
   },
 
-  getCommentsList: function(page){
+  getCommentsList: function (page) {
     let me = this;
 
     let videoId = me.data.videoDetail.id;
     let userToken = app.getUserToken();
     wx.request({
-      url: app.serverUrl + '/comments/videos/'+videoId+'?page=' + page,
+      url: app.serverUrl + '/comments/videos/' + videoId + '?page=' + page,
       method: "GET",
       header: {
         'content-type': 'application/json', // 默认值
         // "Authorization": app.getUserId() + "::"+userToken,
       },
-      success: function(res) {
+      success: function (res) {
         let commentsList = res.data.data.rows;
         let newCommentsList = me.data.commentsList;
 

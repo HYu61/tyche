@@ -64,7 +64,23 @@
                         </li>
                     </ul>
                	</li>
-               	
+
+                <!-- Video management start -->
+                <li class="nav-item ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="icon-notebook"></i>
+                        <span class="title">Video Management</span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item ">
+                            <a href="<%=request.getContextPath() %>/videos/showVideoList.action" class="ajaxify nav-link ">
+                                <span class="title">Video List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                	<!-- 举报管理 start -->
 				<li class="nav-item ">
                     <a href="javascript:;" class="nav-link nav-toggle">
@@ -80,6 +96,8 @@
                         </li>
                     </ul>
                	</li>
+
+
                	
             </ul>
             <!-- END SIDEBAR MENU -->

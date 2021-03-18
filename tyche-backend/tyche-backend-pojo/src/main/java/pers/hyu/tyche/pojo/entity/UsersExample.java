@@ -853,6 +853,146 @@ public class UsersExample {
             addCriterion("security_answer not between", value1, value2, "securityAnswer");
             return (Criteria) this;
         }
+
+        public Criteria andVipVideoAccessQuestionIsNull() {
+            addCriterion("vip_video_access_question is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionIsNotNull() {
+            addCriterion("vip_video_access_question is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionEqualTo(String value) {
+            addCriterion("vip_video_access_question =", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionNotEqualTo(String value) {
+            addCriterion("vip_video_access_question <>", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionGreaterThan(String value) {
+            addCriterion("vip_video_access_question >", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionGreaterThanOrEqualTo(String value) {
+            addCriterion("vip_video_access_question >=", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionLessThan(String value) {
+            addCriterion("vip_video_access_question <", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionLessThanOrEqualTo(String value) {
+            addCriterion("vip_video_access_question <=", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionLike(String value) {
+            addCriterion("vip_video_access_question like", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionNotLike(String value) {
+            addCriterion("vip_video_access_question not like", value, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionIn(List<String> values) {
+            addCriterion("vip_video_access_question in", values, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionNotIn(List<String> values) {
+            addCriterion("vip_video_access_question not in", values, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionBetween(String value1, String value2) {
+            addCriterion("vip_video_access_question between", value1, value2, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessQuestionNotBetween(String value1, String value2) {
+            addCriterion("vip_video_access_question not between", value1, value2, "vipVideoAccessQuestion");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerIsNull() {
+            addCriterion("vip_video_access_answer is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerIsNotNull() {
+            addCriterion("vip_video_access_answer is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerEqualTo(String value) {
+            addCriterion("vip_video_access_answer =", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerNotEqualTo(String value) {
+            addCriterion("vip_video_access_answer <>", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerGreaterThan(String value) {
+            addCriterion("vip_video_access_answer >", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerGreaterThanOrEqualTo(String value) {
+            addCriterion("vip_video_access_answer >=", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerLessThan(String value) {
+            addCriterion("vip_video_access_answer <", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerLessThanOrEqualTo(String value) {
+            addCriterion("vip_video_access_answer <=", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerLike(String value) {
+            addCriterion("vip_video_access_answer like", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerNotLike(String value) {
+            addCriterion("vip_video_access_answer not like", value, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerIn(List<String> values) {
+            addCriterion("vip_video_access_answer in", values, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerNotIn(List<String> values) {
+            addCriterion("vip_video_access_answer not in", values, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerBetween(String value1, String value2) {
+            addCriterion("vip_video_access_answer between", value1, value2, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andVipVideoAccessAnswerNotBetween(String value1, String value2) {
+            addCriterion("vip_video_access_answer not between", value1, value2, "vipVideoAccessAnswer");
+            return (Criteria) this;
+        }
     }
 
     /**

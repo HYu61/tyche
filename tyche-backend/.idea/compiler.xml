@@ -9,8 +9,8 @@
         <module name="tyche-backend-dao" />
         <module name="tyche-backend-common" />
         <module name="tyche-backend-pojo" />
-        <module name="tyche-backend-service" />
         <module name="tyche-backend-api" />
+        <module name="tyche-backend-service" />
       </profile>
     </annotationProcessing>
   </component>

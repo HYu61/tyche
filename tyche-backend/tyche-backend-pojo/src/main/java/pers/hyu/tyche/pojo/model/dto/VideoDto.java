@@ -29,6 +29,9 @@ public class VideoDto implements Serializable {
     private String profilePhoto;
 
     private Boolean loginUserLikeTheVideo;
+    
+    private String author;
+    private String name;
 
     public String getId() {
         return id;
@@ -158,5 +161,20 @@ public class VideoDto implements Serializable {
         this.loginUserLikeTheVideo = loginUserLikeTheVideo;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

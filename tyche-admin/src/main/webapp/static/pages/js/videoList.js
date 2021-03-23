@@ -87,7 +87,7 @@ var VideoList = function () {
             autowidth: true,  			// 如果为ture时，则当表格在首次被创建时会根据父元素比例重新调整表格宽度。如果父元素宽度改变，为了使表格宽度能够自动调整则需要实现函数：setGridWidth
             height: 500,				// 表格高度，可以是数字，像素值或者百分比
             rownumWidth: 36, 			// 如果rownumbers为true，则可以设置行号 的宽度
-            pager: "#videoPager",		// 分页控件的id
+            pager: "#videoListPager",		// 分页控件的id
             subGrid: false				// 是否启用子表格
         }).navGrid('#videoListPager', {
             edit: false,

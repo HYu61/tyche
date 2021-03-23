@@ -41,7 +41,7 @@ page {
 .container-bottom {
   /* bottom: 1%;  */
   display: flex;
-  /* margin-top: 60rpx; */
+  margin-top: 30rpx;
   
   margin-left: 50rpx;
   margin-right: 50rpx;
@@ -196,4 +196,9 @@ page {
   margin-top: 10px;
   margin-left: 10px;
   font-size: 18px;
+}
+
+.size-music {
+  width: 50rpx;
+  height: 50rpx;
 }

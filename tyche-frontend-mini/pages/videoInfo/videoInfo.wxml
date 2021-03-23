@@ -53,6 +53,12 @@
         <cover-view class='container-words'>
             <cover-view>@{{videoDetail.nickname}}</cover-view>
             <cover-view class='video-desc'>{{videoDetail.videoDesc}}</cover-view>
+            <block wx:if="{{bgmAuthor != null}}">
+                <cover-image class="size-music" src='../resource/images/music.png'>
+                </cover-image>
+                <cover-view> {{bgmAuthor}} -- {{bgmName}}</cover-view>
+
+            </block>
         </cover-view>
         <cover-view class='container-bottom'>
             <!-- 首页按钮 -->

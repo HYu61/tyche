@@ -19,6 +19,9 @@ Page({
     play: true,
     // videoInfo:null,
 
+    // bgmAuthor:"",
+    // bgmName:"",
+
 
     commentsPage: 1,
     commentsTotalPage: 1,
@@ -34,15 +37,16 @@ Page({
   onLoad: function (params) {
     let me = this;
     let videoInfo = JSON.parse(params.videoInfo);
-    me.setData({
-      videoInfo: videoInfo
+      me.setData({
+      videoInfo: videoInfo,
     })
-    console.log(videoInfo)
     let userToken = app.getUserToken();
 
     let isVipVideo = videoInfo.vipVideo;
     let videoId = videoInfo.id;
     let publisherId = videoInfo.userId;
+
+   
 
 
     if (!isBlanks(app.getUserId())) {
@@ -68,7 +72,6 @@ Page({
         "Authorization": authorization,
       },
       success: function (res) {
-        console.log(res)
         wx.hideLoading();
         if (res.statusCode == 200) {
 
@@ -83,6 +86,9 @@ Page({
             profileSrc: profileSrc,
             userLikeVideo: loginUserLikeTheVideo,
             videoLikeCount: videoDetail.likeCounts,
+            bgmAuthor:videoDetail.author,
+            bgmName:videoDetail.name
+       
           })
 
           me.getCommentsList(1);
